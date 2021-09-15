@@ -35,25 +35,46 @@ class ProductImport implements ToModel, WithHeadingRow
             $ready_stock = 'false';
         }
 
+        $checkProduct = Product::where('sku', (int)$row['sku'])->first();
 
-        $product = new Product([
-            'brand_id' => $brand->id,
-            'category_id' => $category->id,
-            'sku' => (int)$row['sku'],
-            'status' => $row['status'],
-            'name' => $row['nama'],
-            'price' => (int)preg_replace("/[^0-9]/", "", $row['harga'] ),
-            'stock' => (int)$row['stok'],
-            'unit' => $row['uom'],
-            'always_ready_stock' => $ready_stock,
-            'wight' => (int)$row['berat_gr'],
-            'leght' => (int)$row['panjang_cm'],
-            'wide' => (int)$row['lebar_cm'],
-            'high' => (int)$row['tinggi_cm'],
-            'minimum_buying' => (int)$row['pembelian_minimal'],
-            'multiple_buying' => (int)$row['pembelian_minimal'],
-            'description' => $row['deskripsi'],
-        ]);
+        if ($checkProduct) {
+            $product = $checkProduct->update([
+                'brand_id' => $brand->id,
+                'category_id' => $category->id,
+                'status' => $row['status'],
+                'name' => $row['nama'],
+                'price' => (int)preg_replace("/[^0-9]/", "", $row['harga'] ),
+                'stock' => (int)$row['stok'],
+                'unit' => $row['uom'],
+                'always_ready_stock' => $ready_stock,
+                'wight' => (int)$row['berat_gr'],
+                'leght' => (int)$row['panjang_cm'],
+                'wide' => (int)$row['lebar_cm'],
+                'high' => (int)$row['tinggi_cm'],
+                'minimum_buying' => (int)$row['pembelian_minimal'],
+                'multiple_buying' => (int)$row['pembelian_minimal'],
+                'description' => $row['deskripsi'],
+            ]);
+        }else {
+            $product = new Product([
+                'brand_id' => $brand->id,
+                'category_id' => $category->id,
+                'sku' => (int)$row['sku'],
+                'status' => $row['status'],
+                'name' => $row['nama'],
+                'price' => (int)preg_replace("/[^0-9]/", "", $row['harga'] ),
+                'stock' => (int)$row['stok'],
+                'unit' => $row['uom'],
+                'always_ready_stock' => $ready_stock,
+                'wight' => (int)$row['berat_gr'],
+                'leght' => (int)$row['panjang_cm'],
+                'wide' => (int)$row['lebar_cm'],
+                'high' => (int)$row['tinggi_cm'],
+                'minimum_buying' => (int)$row['pembelian_minimal'],
+                'multiple_buying' => (int)$row['pembelian_minimal'],
+                'description' => $row['deskripsi'],
+            ]);
+        }
 
         return $product;
     }
