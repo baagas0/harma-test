@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
-use App\Http\Resources\ProductResource;
+use App\Http\Resources\DataResource;
 use App\Imports\ProductImport;
 use App\Exports\ProductExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -32,7 +32,7 @@ class DashboardController extends Controller
         }
 
 
-        return new ProductResource($q->orderBy('id', 'desc')->paginate(5));
+        return new DataResource($q->orderBy('id', 'desc')->paginate(5));
     }
 
     public function getSampleProductImport() {
