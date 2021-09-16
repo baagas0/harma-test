@@ -8,6 +8,7 @@ use App\Http\Resources\DataResource;
 use App\Imports\ProductImport;
 use App\Exports\ProductExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Storage;
 use App\{
     Brand,
     Category,
@@ -36,7 +37,7 @@ class DashboardController extends Controller
     }
 
     public function getSampleProductImport() {
-        return response()->download(public_path('data produk.xlsx'));
+        return response()->download(public_path('example data produk.xlsx'));
     }
 
     public function getProductExport() {
@@ -44,7 +45,14 @@ class DashboardController extends Controller
     }
 
     public function postProductImport(Request $req) {
-        Excel::import(new ProductImport, $req->file('file'));
+        $file = $req->file('file');
+        $path = 'public/import/';
+        Storage::disk('local')->makeDirectory($path);
+        $file_name = 'Excel Import -'.time().'.'.$file->clientExtension();
+
+        if (Storage::putFileAs($path, $file, $file_name)) {
+            Excel::import(new ProductImport, public_path('storage/import/'.$file_name));
+        }
 
         return 'oke';
     }

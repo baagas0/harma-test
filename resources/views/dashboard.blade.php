@@ -366,7 +366,8 @@ var KTDefaultDatatableDemo = function() {
 					console.log(data);
 				},
 				error: function(data){
-					alert("error");
+					KTApp.unblock('#importModal .modal-content');
+					toastr.error('Cek file excel anda atau hubungi developer.');
 					console.log(data);
 				}
 			});

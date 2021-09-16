@@ -35,10 +35,10 @@ class ProductImport implements ToModel, WithHeadingRow
             $ready_stock = 'false';
         }
 
-        $checkProduct = Product::where('sku', (int)$row['sku'])->first();
+        $product = Product::where('sku', $row['sku'])->first();
 
-        if ($checkProduct) {
-            $product = $checkProduct->update([
+        if ($product) {
+            $product->update([
                 'brand_id' => $brand->id,
                 'category_id' => $category->id,
                 'status' => $row['status'],

@@ -49,6 +49,11 @@ npm install && npm run dev
 
 ```bash
 on terminal
+php artisan storage:link
+```
+
+```bash
+on terminal
 php artisan serve
 ```
 
